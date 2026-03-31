@@ -16,19 +16,19 @@ function Message({ msg }) {
       {/* Avatar */}
       <div
         className={`shrink-0 w-7 h-7 rounded-full flex items-center justify-center ${
-          isBot ? 'bg-[#b026ff]/20 border border-[#b026ff]/40' : 'bg-white/10 border border-white/20'
+          isBot ? 'bg-blue-50 border border-blue-200' : 'bg-gray-100 border border-gray-200'
         }`}
       >
         {isBot
-          ? <Bot className="w-3.5 h-3.5 text-[#b026ff]" />
-          : <User className="w-3.5 h-3.5 text-gray-400" />}
+          ? <Bot className="w-3.5 h-3.5 text-blue-600" />
+          : <User className="w-3.5 h-3.5 text-gray-500" />}
       </div>
       {/* Bubble */}
       <div
         className={`max-w-[80%] px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed ${
           isBot
-            ? 'bg-white/5 border border-white/8 text-gray-200 rounded-tl-sm'
-            : 'bg-[#b026ff]/20 border border-[#b026ff]/30 text-white rounded-tr-sm'
+            ? 'bg-gray-50 border border-gray-200 text-gray-800 rounded-tl-sm'
+            : 'bg-blue-100 border border-blue-200 text-blue-900 rounded-tr-sm'
         }`}
       >
         {msg.content}
@@ -92,35 +92,34 @@ export default function ChatDrawer({ isOpen, onClose, journeyContext }) {
 
   return (
     <div className="absolute top-0 right-0 bottom-0 z-20 w-[340px] pointer-events-auto flex flex-col animate-fade-up">
-      <div className="flex flex-col h-full bg-[#050505]/95 backdrop-blur-2xl border-l border-white/8 shadow-[-20px_0_60px_rgba(0,0,0,0.5)]">
+      <div className="flex flex-col h-full bg-white border-l border-gray-200 shadow-xl">
 
         {/* Header */}
-        <div className="flex items-center gap-3 px-5 py-4 border-b border-white/8 shrink-0">
-          <div className="w-9 h-9 rounded-2xl bg-[#b026ff]/15 border border-[#b026ff]/30 flex items-center justify-center shadow-[0_0_15px_rgba(176,38,255,0.2)]">
-            <Bot className="w-4.5 h-4.5 text-[#b026ff]" />
+        <div className="flex items-center gap-3 px-5 py-4 border-b border-gray-100 shrink-0">
+          <div className="w-9 h-9 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center shadow-sm">
+            <Bot className="w-4.5 h-4.5 text-blue-600" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-bold text-white">Mova AI</p>
-            <p className="text-[10px] text-emerald-400 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse-dot inline-block" />
+            <p className="text-sm font-bold text-gray-900">Mova AI</p>
+            <p className="text-[10px] text-emerald-600 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
               Online
             </p>
           </div>
-          <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-white/10 transition-colors">
+          <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-gray-100 transition-colors">
             <X className="w-4 h-4 text-gray-500" />
           </button>
         </div>
 
-        {/* Messages */}
         <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
           {messages.map((msg, i) => <Message key={`${msg.role}-${i}`} msg={msg} />)}
           {isTyping && (
             <div className="flex gap-2.5 items-start">
-              <div className="w-7 h-7 rounded-full bg-[#b026ff]/20 border border-[#b026ff]/40 flex items-center justify-center shrink-0">
-                <Bot className="w-3.5 h-3.5 text-[#b026ff]" />
+              <div className="w-7 h-7 rounded-full bg-blue-50 border border-blue-200 flex items-center justify-center shrink-0">
+                <Bot className="w-3.5 h-3.5 text-blue-600" />
               </div>
-              <div className="bg-white/5 border border-white/8 rounded-2xl rounded-tl-sm px-4 py-2.5">
-                <Loader2 className="w-4 h-4 text-gray-400 animate-spin" />
+              <div className="bg-gray-50 border border-gray-200 rounded-2xl rounded-tl-sm px-4 py-2.5">
+                <Loader2 className="w-4 h-4 text-gray-500 animate-spin" />
               </div>
             </div>
           )}
@@ -134,7 +133,7 @@ export default function ChatDrawer({ isOpen, onClose, journeyContext }) {
               <button
                 key={p}
                 onClick={() => sendMessage(p)}
-                className="text-[11px] px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:border-[#b026ff]/40 transition-all"
+                className="text-[11px] px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 text-gray-600 hover:text-gray-900 hover:border-gray-300 transition-all font-medium"
               >
                 {p}
               </button>
@@ -143,23 +142,23 @@ export default function ChatDrawer({ isOpen, onClose, journeyContext }) {
         )}
 
         {/* Input */}
-        <div className="px-4 pb-5 pt-2 border-t border-white/5 shrink-0">
-          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-2xl px-3 py-2.5 focus-within:border-[#b026ff]/40 transition-all">
+        <div className="px-4 pb-5 pt-2 border-t border-gray-100 shrink-0">
+          <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-2xl px-3 py-2.5 focus-within:border-blue-400 focus-within:bg-white transition-all shadow-sm">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Ask about routes, traffic…"
-              className="flex-1 bg-transparent text-sm text-white placeholder-gray-600 focus:outline-none"
+              className="flex-1 bg-transparent text-sm text-gray-900 placeholder-gray-500 focus:outline-none"
             />
-            <button onClick={handleVoice} className="text-gray-600 hover:text-[#b026ff] transition-colors">
+            <button onClick={handleVoice} className="text-gray-500 hover:text-blue-600 transition-colors">
               <Mic className="w-4 h-4" />
             </button>
             <button
               onClick={() => sendMessage(input)}
               disabled={!input.trim() || isTyping}
-              className="w-7 h-7 rounded-xl bg-[#b026ff] flex items-center justify-center disabled:opacity-40 hover:shadow-[0_0_12px_rgba(176,38,255,0.5)] transition-all"
+              className="w-7 h-7 rounded-lg bg-[#1a73e8] flex items-center justify-center disabled:opacity-40 hover:bg-[#1557b0] transition-all"
             >
               <Send className="w-3.5 h-3.5 text-white" />
             </button>

@@ -10,30 +10,11 @@ import { TRAFFIC_METADATA } from '../services/trafficService';
 
 const MAP_CONTAINER_STYLE = { width: '100%', height: '100%' };
 
-const DARK_MAP_STYLE = [
-  { elementType: 'geometry',                                                 stylers: [{ color: '#07070f' }] },
-  { elementType: 'labels.icon',                                              stylers: [{ visibility: 'off' }] },
-  { elementType: 'labels.text.fill',                                         stylers: [{ color: '#5a5a6e' }] },
-  { elementType: 'labels.text.stroke',                                        stylers: [{ color: '#07070f' }] },
-  { featureType: 'administrative',        elementType: 'geometry',            stylers: [{ color: '#18181e' }] },
-  { featureType: 'administrative.locality', elementType: 'labels.text.fill',  stylers: [{ color: '#8a8aa0' }] },
-  { featureType: 'administrative.province', elementType: 'geometry.stroke',  stylers: [{ color: '#b026ff', weight: 1.5 }] },
-  { featureType: 'poi',                   elementType: 'labels.text.fill',    stylers: [{ color: '#404050' }] },
-  { featureType: 'poi.park',              elementType: 'geometry',            stylers: [{ color: '#0c0c14' }] },
-  { featureType: 'road',                  elementType: 'geometry.fill',       stylers: [{ color: '#14141e' }] },
-  { featureType: 'road',                  elementType: 'labels.text.fill',    stylers: [{ color: '#32323f' }] },
-  { featureType: 'road.arterial',         elementType: 'geometry',            stylers: [{ color: '#1a1a28' }] },
-  { featureType: 'road.highway',          elementType: 'geometry',            stylers: [{ color: '#1e1e2e' }] },
-  { featureType: 'road.highway',          elementType: 'geometry.stroke',     stylers: [{ color: '#2a1540' }] },
-  { featureType: 'transit',               elementType: 'geometry',            stylers: [{ color: '#180c28' }] },
-  { featureType: 'water',                 elementType: 'geometry',            stylers: [{ color: '#03050f' }] },
-  { featureType: 'water',                 elementType: 'labels.text.fill',    stylers: [{ color: '#1a2040' }] },
-];
-
 const MAP_OPTIONS = {
-  disableDefaultUI: true,
+  disableDefaultUI: false,
+  mapTypeControl: false,
+  streetViewControl: false,
   gestureHandling: 'greedy',
-  styles: DARK_MAP_STYLE,
   restriction: {
     latLngBounds: { north: 13.0, south: 7.9, east: 77.7, west: 74.6 },
     strictBounds: false,
@@ -63,10 +44,10 @@ function FilterBar({ filters, onToggle }) {
           key={key}
           onClick={() => onToggle(key)}
           title={title}
-          className={`px-3 py-1.5 rounded-xl text-xs font-semibold border backdrop-blur-xl transition-all ${
+          className={`px-3 py-1.5 rounded-full text-xs font-semibold border shadow-sm transition-all bg-white ${
             filters[key]
-              ? 'bg-[#b026ff]/20 border-[#b026ff]/50 text-[#b026ff]'
-              : 'bg-[#050505]/70 border-white/10 text-gray-500 hover:text-gray-300'
+              ? 'border-blue-500 text-blue-700 bg-blue-50'
+              : 'border-gray-200 text-gray-700 hover:bg-gray-50'
           }`}
         >
           {label}
@@ -82,7 +63,7 @@ function DistrictLabel({ district }) {
     <OverlayViewF position={{ lat: district.lat, lng: district.lng }} mapPaneName="overlayLayer">
       <div
         style={{ transform: 'translate(-50%, -50%)' }}
-        className="whitespace-nowrap px-2 py-0.5 rounded-lg bg-[#050505]/60 backdrop-blur border border-white/5 text-[9px] text-gray-500 font-semibold tracking-wide pointer-events-none"
+        className="whitespace-nowrap px-2 py-0.5 rounded-md bg-white/90 backdrop-blur-sm border border-gray-200 shadow-sm text-[10px] text-gray-700 font-medium tracking-wide pointer-events-none"
       >
         {district.name}
       </div>
@@ -101,8 +82,7 @@ function LocationMarker({ loc }) {
         className="flex items-center justify-center"
       >
         <div
-          className="w-full h-full rounded-full flex items-center justify-center text-[11px] border border-white/10 shadow-lg backdrop-blur-sm cursor-pointer hover:scale-125 transition-transform"
-          style={{ background: `${cfg.color}28` }}
+          className="w-full h-full rounded-full flex items-center justify-center text-[11px] border border-gray-200 shadow-sm bg-white cursor-pointer hover:scale-110 transition-transform"
         >
           {cfg.icon ?? '📍'}
         </div>
@@ -117,12 +97,13 @@ function RoutePin({ position, label, color }) {
     <OverlayViewF position={position} mapPaneName="overlayMouseTarget">
       <div className="flex flex-col items-center" style={{ transform: 'translate(-50%, -100%)' }}>
         <div
-          className="px-2.5 py-1 rounded-xl text-[11px] font-bold text-white shadow-lg mb-1"
-          style={{ background: color, boxShadow: `0 4px 15px ${color}60` }}
+          className="px-2.5 py-1 rounded-md text-[11px] font-bold text-white shadow-md mb-1 relative"
+          style={{ background: color }}
         >
           {label}
+          <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[4px] border-r-[4px] border-t-[5px] border-l-transparent border-r-transparent" style={{ borderTopColor: color }} />
         </div>
-        <div className="w-2 h-2 rounded-full" style={{ background: color, boxShadow: `0 0 8px ${color}` }} />
+        <div className="w-2 h-2 rounded-full bg-white border-2" style={{ borderColor: color }} />
       </div>
     </OverlayViewF>
   );
@@ -229,7 +210,7 @@ export default function MapView({
         {altPath && (
           <PolylineF
             path={altPath}
-            options={{ strokeColor: '#4a90d9', strokeWeight: 4, strokeOpacity: 0.5, zIndex: 2 }}
+            options={{ strokeColor: '#70757a', strokeWeight: 6, strokeOpacity: 0.8, zIndex: 2 }}
           />
         )}
 
@@ -237,40 +218,40 @@ export default function MapView({
         {primaryPath && (
           <PolylineF
             path={primaryPath}
-            options={{ strokeColor: '#b026ff', strokeWeight: 5, strokeOpacity: 0.9, zIndex: 3 }}
+            options={{ strokeColor: '#1a73e8', strokeWeight: 6, strokeOpacity: 1.0, zIndex: 3 }}
           />
         )}
 
         {/* Origin pin */}
         {origin && (
-          <RoutePin position={{ lat: origin.lat, lng: origin.lng }} label="FROM" color="#00e676" />
+          <RoutePin position={{ lat: origin.lat, lng: origin.lng }} label="A" color="#202124" />
         )}
 
         {/* Destination pin */}
         {destination && (
-          <RoutePin position={{ lat: destination.lat, lng: destination.lng }} label="TO" color="#b026ff" />
+          <RoutePin position={{ lat: destination.lat, lng: destination.lng }} label="B" color="#d93025" />
         )}
       </GoogleMap>
 
       {/* Legend */}
       <div className="absolute bottom-6 right-6 z-10 flex flex-col gap-1.5 pointer-events-none">
         {primaryPath && (
-          <div className="flex items-center gap-2 bg-[#050505]/80 backdrop-blur px-3 py-1.5 rounded-xl border border-white/8">
-            <div className="w-5 h-1 rounded-full bg-[#b026ff]" />
-            <span className="text-[10px] text-gray-400">Primary route</span>
+          <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-gray-200 shadow-sm">
+            <div className="w-5 h-1.5 rounded-full bg-[#1a73e8]" />
+            <span className="text-[10px] text-gray-700 font-medium">Primary</span>
           </div>
         )}
         {altPath && (
-          <div className="flex items-center gap-2 bg-[#050505]/80 backdrop-blur px-3 py-1.5 rounded-xl border border-white/8">
-            <div className="w-5 h-1 rounded-full bg-[#4a90d9] opacity-60" />
-            <span className="text-[10px] text-gray-400">Alternate route</span>
+          <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-gray-200 shadow-sm">
+            <div className="w-5 h-1.5 rounded-full bg-[#70757a]" />
+            <span className="text-[10px] text-gray-700 font-medium">Alternative</span>
           </div>
         )}
-        <div className="flex flex-col gap-1 bg-[#050505]/80 backdrop-blur px-3 py-2 rounded-xl border border-white/8">
+        <div className="flex flex-col gap-1.5 bg-white px-3 py-2.5 rounded-lg border border-gray-200 shadow-sm mt-1">
           {Object.entries(SEVERITY_COLORS).map(([sev, col]) => (
             <div key={sev} className="flex items-center gap-2">
               <div className="w-2.5 h-2.5 rounded-full" style={{ background: col }} />
-              <span className="text-[9px] text-gray-500 capitalize">{sev} traffic</span>
+              <span className="text-[10px] text-gray-600 capitalize font-medium">{sev} traffic</span>
             </div>
           ))}
         </div>

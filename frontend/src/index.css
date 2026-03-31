@@ -3,9 +3,8 @@
 /* ── Custom theme tokens ─────────────────────────────────────────────────── */
 @theme {
   --animate-shimmer: shimmer 3s linear infinite;
-  --animate-pulse-ring: pulse-ring 2.2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
-  --animate-pulse-dot: pulse-dot 2s ease-in-out infinite;
   --animate-fade-up: fade-up 0.4s ease-out forwards;
+  --animate-slide-in: slide-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   --animate-spin-slow: spin 3s linear infinite;
 }
 
@@ -30,27 +29,41 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes slide-in {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 12px rgba(176, 38, 255, 0.3); }
+  50%       { box-shadow: 0 0 28px rgba(176, 38, 255, 0.65); }
+}
+
+@keyframes bottleneck-flash {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.08); }
+}
+
 /* ── Utility classes used across components ──────────────────────────────── */
-.animate-shimmer    { animation: shimmer 3s linear infinite; }
-.animate-pulse-ring { animation: pulse-ring 2.2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite; }
-.animate-pulse-dot  { animation: pulse-dot 2s ease-in-out infinite; }
-.animate-fade-up    { animation: fade-up 0.4s ease-out forwards; }
-.animate-spin-slow  { animation: spin 3s linear infinite; }
+.animate-shimmer         { animation: shimmer 3s linear infinite; }
+.animate-fade-up         { animation: fade-up 0.4s ease-out forwards; }
+.animate-slide-in        { animation: slide-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-spin-slow       { animation: spin 3s linear infinite; }
 
 /* ── Global reset ─────────────────────────────────────────────────────────── */
 body {
-  background-color: #050505;
-  color: white;
+  background-color: #f8f9fa; /* Google maps light gray backdrop depending on usage */
+  color: #3c4043; /* Standard Google text color */
   margin: 0;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Roboto', 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
 /* Thin custom scrollbar for the sidebar */
 ::-webkit-scrollbar       { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(176, 38, 255, 0.3); border-radius: 2px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(176, 38, 255, 0.6); }
+::-webkit-scrollbar-thumb { background: #dadce0; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #bdc1c6; }
 
 /* Hide scrollbar for transport drawer horizontal scroll */
 .no-scrollbar::-webkit-scrollbar { display: none; }
